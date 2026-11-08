@@ -10,14 +10,8 @@ enum Modules {
         guard !registered else { return }
         registered = true
         KitModule.register()
-        #if MODUL_WINDOW
-        WindowModule.register()
-        #endif
         #if MODUL_MENUBAR
         MenuBarModule.register()
-        #endif
-        #if MODUL_ISLAND
-        IslandModule.register()
         #endif
         #if MODUL_BACKGROUND
         BackgroundModule.register()
@@ -25,44 +19,20 @@ enum Modules {
         #if MODUL_HOTKEYS
         HotkeysModule.register()
         #endif
-        #if MODUL_AI
-        AIModule.register()
-        #endif
-        #if MODUL_MLX
-        MLXModule.register()
-        #endif
-        #if MODUL_EXAMPLES
-        ExamplesModule.register()
-        #endif
         Features.register()
     }
 
     /// The modules compiled into this binary (from the `-D MODUL_*` flags).
     static var compiled: Set<String> {
         var out: Set<String> = []
-        #if MODUL_WINDOW
-        out.insert("window")
-        #endif
         #if MODUL_MENUBAR
         out.insert("menubar")
-        #endif
-        #if MODUL_ISLAND
-        out.insert("island")
         #endif
         #if MODUL_BACKGROUND
         out.insert("background")
         #endif
         #if MODUL_HOTKEYS
         out.insert("hotkeys")
-        #endif
-        #if MODUL_AI
-        out.insert("ai")
-        #endif
-        #if MODUL_MLX
-        out.insert("mlx")
-        #endif
-        #if MODUL_EXAMPLES
-        out.insert("examples")
         #endif
         return out
     }

@@ -160,7 +160,6 @@ Zweck, Zielgruppe, Fachsprache, App-Formen und offene Fragen stehen in `docs/PRO
 2. `docs/PROJECT.md`: das Projekt, seine Festlegungen und offenen Fragen.
 3. `CONTRIBUTING.md`: Branch, Commit, Prüfung und Merge.
 4. Vor jeder Oberfläche `docs/DESIGN.md`; vor Arbeiten an Aufbau, Modulen und Build `docs/ARCHITEKTUR.md` und `docs/MODULE.md`; vor Signatur und DMG `docs/VERTEILUNG.md`.
-5. Vor lokaler KI `docs/KI.md`. <!-- modul:ai -->
 6. Im Strangbetrieb die eigene Datei-Zuständigkeit in `docs/agents/straenge.json`. Ein Strang ist ein Arbeitspaket mit eigener Session, eigenem Branch und festen Dateien; die Integration führt die Stränge zusammen und pflegt die gemeinsamen Dateien.
 
 Der Einstieg für einen Agenten in ein neues Projekt (Bootstrap-Prompt) steht in `docs/UEBERGABE.md`, Abschnitt 4.
@@ -181,9 +180,3 @@ Keine Projektregeln festgelegt.
 Keine Sprachpakete des Projekts.
 
 <!-- projektregeln:ende -->
-
-<!-- nur-im-starter:anfang -->
-### Bau des Starters
-
-Dieses Repository ist die Vorlage selbst. Bauakten und Statusberichte der Stränge liegen in `docs/bau/`; `bin/starter init` entfernt sie und diesen Abschnitt in einem neuen Projekt. Änderungen am Starter folgen `CONTRIBUTING.md` und bekommen einen Eintrag in `CHANGELOG.md`.
-<!-- nur-im-starter:ende -->

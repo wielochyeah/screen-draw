@@ -1,98 +1,6 @@
-<!-- nur-im-starter:anfang -->
-# Mac-App-Starter
+# Screen Draw
 
-Vorlage, aus der jede neue native Mac-App startet, auch eine fachlich völlig andere. Ein Agent baut ab dem ersten Auftrag Funktionen und muss Fenster, Einstellungen, Einrichtung, Gestaltung, Sprachen und Verteilung nicht neu bauen. Gebaut wird mit einem `swiftc`-Aufruf: die Command Line Tools genügen, ein installiertes Xcode geht ebenso.
-
-![Übersicht im Hauptfenster mit dem Beispiel „Notizen“](docs/screenshots/de-light-examples.overview.png)
-
-Fertig verdrahtet sind:
-
-- vier App-Formen, frei kombinierbar: Fenster-App im Stil von Musik unter macOS 26, Menüleisten-App mit Statussymbol und Statusmenü, Insel an der Notch (Kapsel auf Macs ohne Notch), Hintergrund mit geplanten Aufgaben und Start beim Anmelden
-- Gestaltung im Stil von VoiceBud: Tokens für Farben, Abstände, Radien, Schrift und Bewegung, sechs Akzente mit geprüften Kontrasten, Bausteine und Muster für Einstellungen und Einrichtung, hell und dunkel
-- Einrichtung mit Sprache, Funktionen, Berechtigungen (mit allen Zuständen bis zum Neustart) und Abschluss
-- Einstellungsfenster wie die Systemeinstellungen, mit „Allgemein“, „Über“ und in Debug-Builds einer Galerie aller Bausteine
-- Englisch und Deutsch mit Wechsel ohne Neustart, deutsche Anrede einstellbar
-- globale Tastaturkurzbefehle mit Regeln gegen belegte und tippende Kombinationen
-- lokale KI mit Apple Foundation Models, optional eigene Modelle über MLX mit Download und Fortschritt
-- Einstellungen als JSON, SQLite mit Migrationen, keine Netzaufrufe ohne Auftrag
-- Renders jeder Szene in beiden Sprachen und Erscheinungsbildern ohne Fenster, Selbsttest, Tests ohne XCTest
-- programmatisches App-Symbol, DMG mit gestaltetem Fenster, Signatur ad hoc oder mit Developer ID, Notarisierung
-- Regeln für Agenten, die Prüfskripte, Hooks, Subagenten und CI erzwingen
-
-## Rundgang
-
-Alle Bilder rendert die App selbst, ohne Fenster auf dem Bildschirm (`make shots`, dann `make readme-shots`). Sie zeigen das Beispiel „Notizen“ (Modul `examples`). In einem neuen Projekt löscht `bin/starter init` sie; eigene Bilder trägt `docs/screenshots/list.txt` ein.
-
-### Hauptfenster
-
-Eine Notiz öffnet sich über der Liste, aus der sie kommt, und daneben fasst Apples Modell auf dem Mac den Text zusammen und schlägt Titel und Stichwörter vor.
-
-![Notizseite mit Zusammenfassung und Titelvorschlag der lokalen KI](docs/screenshots/en-dark-examples.detail-done.png)
-
-### Insel
-
-Ergebnisse wachsen als Karte aus der Notch und klappen unter dem Zeiger mit dem ganzen Text, „Kopieren“ und einer eigenen Aktion auf.
-
-![Aufgeklappte Ergebniskarte der Insel](docs/screenshots/de-dark-island.done-hover.png)
-
-### Menüleiste
-
-Das Statusmenü unter dem Statussymbol zeigt die Abschnitte der Funktionen, hier die drei zuletzt bearbeiteten Notizen, und darunter die Befehle der App.
-
-![Statusmenü mit dem Abschnitt „Notizen“](docs/screenshots/de-light-examples.menubar.png)
-
-### Einrichtung
-
-Im ersten Schritt wächst die echte Insel aus einer gezeichneten Notch und meldet eine gesicherte Notiz; ohne Modul `island` steht dort das App-Symbol vor dem Akzent.
-
-![Begrüßungsschritt mit der Insel](docs/screenshots/de-light-onboarding.welcome.png)
-
-Danach wählst du die Sprache der App, Englisch oder Deutsch, und sie wechselt sofort.
-
-![Schritt „Sprache“](docs/screenshots/de-light-onboarding.language.png)
-
-Jede Berechtigung bekommt einen eigenen Schritt; braucht eine Berechtigung einen Neustart, startet die App mit einem Klick neu und setzt die Einrichtung an dieser Stelle fort.
-
-![Schritt „Eingabeüberwachung“, der auf den Neustart wartet](docs/screenshots/de-dark-onboarding.permission-restart.png)
-
-### Einstellungen
-
-Das Einstellungsfenster ist wie die Systemeinstellungen aufgebaut: oben die Bereiche der Funktionen, darunter die Einstellungen von Kit und Modulen. „Allgemein“ regelt Sprache und Erscheinungsbild, zeigt die Einrichtung erneut und setzt alles zurück.
-
-![Einstellungen, Bereich „Allgemein“](docs/screenshots/de-light-settings.window.png)
-
-„Insel und Kapsel“ zeigt die echte Insel als Vorschau und regelt Darstellung, Dauer der Karte, Ausklappen und Töne.
-
-![Bereich „Insel und Kapsel“](docs/screenshots/de-dark-island.pane.png)
-
-„Modelle“ zeigt, ob Apple Intelligence bereit ist, schickt eine Testfrage an das Modell auf dem Mac und zählt Anfragen und Fehlschläge.
-
-![Bereich „Modelle“ mit Testantwort](docs/screenshots/de-light-ai.pane.png)
-
-### Weitergabe
-
-`make dmg` legt ein DMG mit gestaltetem Fenster in beiden Sprachen an; solange es nicht notarisiert ist, steht der Weg über „Dennoch öffnen“ darunter.
-
-![Fenster des DMG](docs/screenshots/tools-dmg.png)
-
-`make icon` zeichnet das App-Symbol aus Akzent und SF Symbol für hell und dunkel; vor der Weitergabe kommt ein eigenes Motiv hinein.
-
-![App-Symbol auf hellem und dunklem Grund](docs/screenshots/tools-icon.png)
-
-## Stand
-
-Fassung 1.0.1 vom 13.10.2026, die Änderungen stehen in `CHANGELOG.md`. Die Bauunterlagen (Statusberichte der Stränge und der Integration) liegen unter `docs/bau/`; `bin/starter init` entfernt sie in einem Projekt.
-
-## Ein neues Projekt starten
-
-Bauen, Testen und Rendern brauchen einen Mac mit Apple Silicon und macOS 26; Agenten arbeiten dort in Claude Code (Desktop-App oder Terminal). Eine Sitzung in einem Linux-Container ändert nur Doku, Regeln und die Python-Werkzeuge. Schritt für Schritt in `docs/UEBERGABE.md`, kurz:
-
-1. Auf GitHub beim Repository `mac-app-starter` „Use this template“ wählen, privat anlegen und auf dem Mac klonen.
-2. `make doctor` prüft die Werkzeuge (Command Line Tools genügen) und installiert nichts.
-3. `bin/starter init` legt Name, Bundle-ID, Akzent, Symbol, Anrede und Module fest und entfernt, was nur der Starter braucht. Danach die eigene Commit-Identität in `starter.json` eintragen, `make hooks`, `make check` und alles committen.
-4. `make run` und die Einrichtung einmal selbst durchgehen.
-5. Einen Agenten mit dem Bootstrap-Prompt aus `docs/UEBERGABE.md` (Abschnitt 4) starten. Er räumt die Reste des Starters auf, entfernt nicht benötigte Module und baut die Funktionen; Rückmeldungen kommen in `docs/agents/VORGABEN.md`.
-<!-- nur-im-starter:ende -->
+Screen Draw ist eine native Mac-App, entstanden aus dem mac-app-starter. Zweck, Zielgruppe und offene Fragen stehen in `docs/PROJECT.md`, Einrichtung und Weiterbau in `docs/UEBERGABE.md`.
 
 ## Aufbau
 
@@ -108,12 +16,10 @@ Bauen, Testen und Rendern brauchen einen Mac mit Apple Silicon und macOS 26; Age
 | `App/Sources/Features/` | Funktionen des Projekts |
 | `App/Resources/` | Nutzungsbeschreibungen der Berechtigungen (`InfoPlist.json`), App-Symbol, Hinweise zu Fremdcode für „Über“ (`Notices/`) |
 | `App/Tests/` | Swift-Tests mit eigenem Harness |
-| `ai-worker/` | Python-Worker für MLX (Modul `mlx`) | <!-- modul:mlx -->
 | `tools/` | App-Symbol und DMG-Hintergrund in Swift, Einstellungen für dmgbuild |
 | `scripts/` | Build, Tests, Renders, Prüfungen, Hooks, Starter-Werkzeuge |
 | `bin/starter` | init, remove, strip-examples, sync, check-kit, modules, doctor |
 | `docs/` | `UEBERGABE.md`, `DESIGN.md`, `ARCHITEKTUR.md`, `MODULE.md`, `VERTEILUNG.md`, `PROJECT.md`, `DECISIONS.md`, `STARTER_FEEDBACK.md`, `agents/`, `vorlagen/` |
-| `docs/KI.md` | lokale KI (Modul `ai`) | <!-- modul:ai -->
 | `.claude/` | Rechte, Hooks, Skills, Subagenten, Workflow `red-team` |
 
 ## Regeln

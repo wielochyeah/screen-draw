@@ -23,8 +23,6 @@ description: Fügt der Einrichtung einen Schritt hinzu (OnboardingStep mit Reihe
 | 20 | Funktionen (Kit, bis zu drei Karten aus `OnboardingFeatures`) |
 | 30 bis 299 | Schritte der Funktionen des Projekts, in Zehnerschritten |
 | 300 bis 399 | Berechtigungen (Kit, je Eintrag in `permissions`) |
-| 400 | Lokale KI (Modul `ai`) | <!-- modul:ai -->
-| 500 | Darstellung Insel oder Kapsel (Modul `island`) | <!-- modul:island -->
 | 600 | Kurzbefehl (Modul `hotkeys`) | <!-- modul:hotkeys -->
 | 900 | Beim Anmelden starten (Modul `background`) | <!-- modul:background -->
 | 1000 | Fertig (Kit) |
