@@ -41,6 +41,5 @@ Gehört zum Modul `menubar`; `bin/starter remove menubar` entfernt diesen Skill 
 ## Prüfen
 
 - `make check` und `make build MODULES=menubar`.
-- `make build MODULES=menubar,window`, solange das Projekt beide App-Formen hat. <!-- modul:window -->
 - `make shots ONLY=<feature>.` und `make shots ONLY=menubar.`, alle vier Fassungen jeder Szene mit dem Werkzeug Read ansehen; das Symbol in den Zuständen zeigt `menubar.icon-states`.
 - Klickverhalten, Statusmenü an der echten Menüleiste und der Wechsel zwischen Accessory und Regular sind nur in der laufenden App prüfbar.

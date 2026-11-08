@@ -40,8 +40,6 @@ struct SummaryColumn: View { … }
 
 `bin/starter remove` löst jeden der beiden Blöcke für sich auf, `make check-kit` spielt das für jedes Modul durch. So baut das Projekt auch nach `bin/starter remove <modul>`.
 
-Solange das Modul `examples` enthalten ist, zeigt `App/Sources/Modules/Examples/` dasselbe Muster an einem vollständigen Beispiel. <!-- modul:examples -->
-
 ## Schritte
 
 1. `docs/DESIGN.md` und `docs/ARCHITEKTUR.md` lesen; Ziel, Ansichten und Daten in `docs/PROJECT.md` (Abschnitte 3 und 4) eintragen.
@@ -51,12 +49,9 @@ Solange das Modul `examples` enthalten ist, zeigt `App/Sources/Modules/Examples/
    - Einstellungsbereich: `neue-einstellung`
    - Einrichtungsschritt: `neuer-onboarding-schritt`
    - Berechtigung: `neue-berechtigung`
-   - Seite im Hauptfenster: `neue-ansicht` <!-- modul:window -->
    - Abschnitt im Statusmenü: `menueleisten-app` <!-- modul:menubar -->
-   - Rückmeldung in der Insel: `insel-zustand` <!-- modul:island -->
    - geplante Aufgabe: `hintergrund-job` <!-- modul:background -->
    - globaler Kurzbefehl: `kurzbefehl` <!-- modul:hotkeys -->
-   - lokale KI: `ki-funktion` <!-- modul:ai -->
 5. In `register()` für jeden sichtbaren Zustand eine `RenderScene` mit Kennung `<feature>.<zustand>` und Beispieldaten anlegen, die echt wirken, aber erfunden sind. Neue allgemeine Bausteine zusätzlich als `GalleryEntry`.
 6. Was beim Start laufen muss, in `Registry.launchHooks`; was beim Beenden aufräumen muss, in `Registry.terminateHooks`; was nach „Fertig“ in der Einrichtung geschehen soll, in `Registry.onboardingFinishedHooks` (`{ firstTime in … }`). Nichts startet Fenster oder fragt Berechtigungen an, wenn `RenderMode.isHeadless` gilt.
 
@@ -73,10 +68,8 @@ Solange das Modul `examples` enthalten ist, zeigt `App/Sources/Modules/Examples/
 
    Was beim Start eine Datei öffnet (Seiten aus der Datenbank, Anmelden einer Hintergrund-Aufgabe), steht in einem Start-Hook mit `guard !RenderMode.isHeadless, !RenderMode.isStatic else { return }`.
 
-   Der Selbsttest `window.chrome` baut headless das echte Hauptfenster und zeichnet seine erste Seite; auch dabei entsteht keine Datei. <!-- modul:window -->
 7. Prüfbare Annahmen zur Laufzeit (Datei lesbar, Migration aktuell) als `SelfTestCheck` eintragen.
 8. Eine Karte für den Einrichtungsschritt „Funktionen“: `OnboardingFeatures.items.append(OnboardingFeature(id: "<feature>.<punkt>", order: 10, symbol: "<sf.symbol>", title: { <Name>Text.featureTitle }, detail: { <Name>Text.featureDetail }))` im `register()`. Der Schritt zeigt die ersten drei Karten nach `order` und fehlt, solange es keine gibt; die Szene `onboarding.features` zeigt Beispielkarten des Starters, nicht die des Projekts.
-9. Sobald das erste eigene Feature steht: `bin/starter strip-examples`. <!-- modul:examples -->
 
 ## Prüfen
 

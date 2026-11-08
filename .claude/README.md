@@ -27,15 +27,12 @@ Tests der Hooks: `scripts/tests/test_claude_harness.py` (läuft mit `make test`)
 | Skill | wofür |
 |---|---|
 | `neues-feature` | Funktion des Projekts unter `App/Sources/Features/` mit Texten, Speicher, Registrierung, Szenen und Tests |
-| `neue-ansicht` | Seite im Hauptfenster (Modul `window`) | <!-- modul:window -->
 | `neue-einstellung` | typisierte Einstellung und Bereich im Einstellungsfenster |
 | `neuer-onboarding-schritt` | Schritt in der Einrichtung mit Reihenfolge, Bedingung und Zuständen |
 | `neue-berechtigung` | macOS-Berechtigung mit Nutzungsbeschreibung, Entitlements und Einrichtungsschritt |
-| `insel-zustand` | Rückmeldung in der Insel an der Notch oder der Kapsel (Modul `island`) | <!-- modul:island -->
 | `menueleisten-app` | Statusmenü, Symbolzustände, App ohne Dock-Symbol (Modul `menubar`) | <!-- modul:menubar -->
 | `hintergrund-job` | geplante Aufgabe und Start beim Anmelden (Modul `background`) | <!-- modul:background -->
 | `kurzbefehl` | globaler Kurzbefehl mit Regeln gegen Belegtes (Modul `hotkeys`) | <!-- modul:hotkeys -->
-| `ki-funktion` | lokale KI mit Apple Foundation Models, optional MLX (Modul `ai`) | <!-- modul:ai -->
 | `screenshots` | alle Szenen in en und de, hell und dunkel, ohne Fenster |
 | `red-team` | Gegenprüfung eines Pakets |
 | `starter-rueckfluss` | Bedarf an Kit-Pfaden als Pull Request in den Starter |

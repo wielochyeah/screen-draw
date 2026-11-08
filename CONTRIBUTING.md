@@ -47,15 +47,12 @@ Teil A von `CLAUDE.md` wird nie von Hand geändert.
 | Aufgabe | Weg |
 |---|---|
 | neues Feature | Skill `neues-feature`: Ordner unter `App/Sources/Features/`, Texte, Speicher, Registrierung, Szenen, Tests |
-| Seite im Hauptfenster | Skill `neue-ansicht` | <!-- modul:window -->
 | Einstellung oder Einstellungsbereich | Skill `neue-einstellung` |
 | Einrichtungsschritt | Skill `neuer-onboarding-schritt` |
 | Berechtigung | Skill `neue-berechtigung` |
-| Zustand der Insel | Skill `insel-zustand` | <!-- modul:island -->
 | Inhalt im Statusmenü | Skill `menueleisten-app` | <!-- modul:menubar -->
 | geplante Aufgabe | Skill `hintergrund-job` | <!-- modul:background -->
 | globaler Kurzbefehl | Skill `kurzbefehl` | <!-- modul:hotkeys -->
-| Funktion mit lokaler KI | Skill `ki-funktion` | <!-- modul:ai -->
 | UI-Text | in `<Bereich>Text.swift` als `tr(en:de:)`, nie als Literal in einer View |
 | Farbe, Abstand, Radius, Schriftgröße, Bewegung | Token aus `App/Sources/Kit/Design/`; fehlt eines, steht der Bedarf in `docs/STARTER_FEEDBACK.md` |
 

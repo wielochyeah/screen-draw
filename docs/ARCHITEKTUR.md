@@ -6,8 +6,6 @@ Wie die App aufgebaut ist: ein Prozess, ein Kit, Module als Compiler-Flags, eine
 
 Die App ist ein einziger AppKit-Prozess mit SwiftUI-Ansichten, gebaut aus allen Swift-Dateien in einem Aufruf von `swiftc`.
 
-Einzige Ausnahme ist das Modul `mlx`: es startet einen Python-Worker (`docs/KI.md`). <!-- modul:mlx -->
-
 Ablauf eines Starts:
 
 1. `App/Sources/Kit/Main/Entry.swift` ist der Einstieg (`@main enum Entry`, nicht unter `TESTING`). `LaunchFlags.parse` liest die Kommandozeile.
@@ -106,7 +104,6 @@ Binary + Info.plist + Resources ──> build/<Name>.app ──codesign──> f
 - `Info.plist` wird zusätzlich ins Binary eingebettet (`-sectcreate __TEXT __info_plist`).
 - Gebaut wird in einen temporären Ordner, danach ersetzt das neue Bundle das alte.
 - `make test` baut dieselben Quellen mit `App/Tests/**` und `-D TESTING` zu `build/tests/run-tests` und führt es mit `STARTER_HEADLESS=1` aus; danach laufen die Python-Tests in `scripts/tests/` und `scripts/starter/tests/`.
-- Mit dem Modul `mlx` laufen in `make test` auch die Python-Tests in `ai-worker/tests/`. <!-- modul:mlx -->
 
 ## 9. Package.swift
 
@@ -116,5 +113,4 @@ Binary + Info.plist + Resources ──> build/<Name>.app ──codesign──> f
 
 - Swift: `App/Tests/Harness/Harness.swift` stellt `TestSuite` mit `test("…") { … }`, `expect`, `expectEqual`, `expectThrows`, `fail`, `tempDir()` und `repoRoot` bereit; Testklassen werden über die ObjC-Laufzeit gefunden. `make test ONLY=<präfix>` wählt aus.
 - Python: `unittest` in `scripts/tests/` (Werkzeuge, Hooks, Workflow) und `scripts/starter/tests/` (`bin/starter`, check-kit); `make probe` führt die langsame Template-Probe aus `scripts/starter/tests/probe_starter.py` aus.
-- Python im Modul `mlx`: `unittest` in `ai-worker/tests/` (Worker). <!-- modul:mlx -->
 - Selbsttest: `--selftest` prüft zur Laufzeit, was nur im fertigen Bundle prüfbar ist (Symbol vorhanden, Konfiguration passt, Registry ohne Doppelungen, Module melden ihre Prüfungen an).

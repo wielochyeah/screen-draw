@@ -1,20 +1,20 @@
 {
   "starter": { "version": "1.0.1" },
   "app": {
-    "name": "Starter",
-    "bundleId": "com.example.starter",
-    "displayName": { "en": "Starter", "de": "Starter" },
-    "version": "1.0.0",
+    "name": "Screen Draw",
+    "bundleId": "local.screendraw",
+    "displayName": { "en": "Screen Draw", "de": "Screen Draw" },
+    "version": "0.1.0",
     "build": 1,
     "minimumMacOS": "26.0",
-    "accent": "violett",
-    "symbol": "sparkles",
-    "tagline": { "en": "The starting point for your next Mac app.", "de": "Der Ausgangspunkt für deine nächste Mac-App." },
+    "accent": "rot",
+    "symbol": "scribble.variable",
+    "tagline": { "en": "Draw on your screen so others see what you mean.", "de": "Zeichne auf deinem Bildschirm, damit andere sehen, was du meinst." },
     "copyright": "© 2026"
   },
-  "modules": { "window": true, "menubar": true, "island": true, "background": true, "hotkeys": true, "ai": true, "mlx": false, "examples": true },
-  "permissions": ["notifications"],
+  "modules": { "menubar": true, "background": true, "hotkeys": true },
+  "permissions": [],
   "texts": { "languages": ["en", "de"], "anrede": "du" },
-  "commit": { "name": "", "email": "" },
+  "commit": { "name": "nilswieloch", "email": "nils.wieloch@outlook.de" },
   "signing": { "identity": "-", "teamId": "", "notarize": false }
 }

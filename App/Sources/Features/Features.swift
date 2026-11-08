@@ -4,5 +4,6 @@
 
 enum Features {
     static func register() {
+        DrawFeature.register()
     }
 }

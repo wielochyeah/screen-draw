@@ -50,7 +50,6 @@ Gehört zum Modul `background`; `bin/starter remove background` entfernt diesen 
    }
    ```
 
-   Vorbild für beides: `App/Sources/Modules/Examples/NotesBackground.swift` (Aufgabe „Papierkorb leeren“, mit eingespeistem Planer und Speicher testbar). <!-- modul:examples -->
 3. Ergebnis so melden, wie es war: `.done(note:)` mit kurzem Detail, `.nothingToDo`, wenn es nichts zu tun gab, `.failed(_:)` (oder ein geworfener Fehler) mit Grund in Alltagssprache. Nutzerinhalte stehen nie im Protokoll.
 4. Kennung mit Präfix des Features, Titel als Tätigkeit (`Cache aufräumen`).
 5. Tests: die Logik der Aufgabe für sich, mit eingespeister Uhr und temporärem Ordner; nie auf den echten Planer warten. Tests und Szenen, die die Aufgabe in der Liste brauchen, melden sie bei einer eigenen `BackgroundJobs(store: MemoryJobStore(), scheduler: NoJobScheduler(), settings: nil, now: { … })` an, nie bei `.shared`.
