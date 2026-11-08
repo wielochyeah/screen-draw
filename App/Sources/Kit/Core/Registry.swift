@@ -1,0 +1,208 @@
+import SwiftUI
+
+// Modules contribute here (in `<Name>Module.register()`); Kit UIs read from here.
+// Contributions are appended once at launch by `Modules.registerAll()`; Kit UIs read the
+// `ordered…` accessors, which sort deterministically (order, then id).
+
+/// A page in the main window's sidebar (the window module renders it).
+struct AppPage: Identifiable {
+    let id: String
+    let section: PageSection
+    let order: Int
+    let title: () -> String
+    let symbol: String
+    let content: () -> AnyView
+}
+
+/// Sidebar sections of the main window. Titles in `KitText`.
+enum PageSection: Int, CaseIterable, Comparable {
+    case main, library, collections
+
+    var title: String { KitText.section(self) }
+
+    static func < (a: PageSection, b: PageSection) -> Bool { a.rawValue < b.rawValue }
+}
+
+/// A pane of the settings window (hub). VoiceBud layout: content panes on top, settings below.
+struct SettingsPane: Identifiable {
+    let id: String
+    let group: SettingsGroup
+    let order: Int
+    let title: () -> String
+    let symbol: String
+    let tint: TintName
+    let content: () -> AnyView
+}
+
+enum SettingsGroup: Int, CaseIterable, Comparable {
+    case content, settings
+
+    var title: String { KitText.settingsGroup(self) }
+
+    static func < (a: SettingsGroup, b: SettingsGroup) -> Bool { a.rawValue < b.rawValue }
+}
+
+/// What an onboarding step gets from the onboarding window.
+struct OnboardingContext {
+    /// The step sets this to false while something must happen first (Continue is disabled).
+    let canContinue: Binding<Bool>
+    let next: () -> Void
+    let back: () -> Void
+    /// Index of this step among the included steps, and their count.
+    let index: Int
+    let count: Int
+
+    var isFirst: Bool { index == 0 }
+    var isLast: Bool { index == count - 1 }
+}
+
+struct OnboardingStep: Identifiable {
+    let id: String
+    let order: Int
+    /// Evaluated when onboarding opens (e.g. only when a permission is missing).
+    let isIncluded: () -> Bool
+    let content: (OnboardingContext) -> AnyView
+}
+
+/// An item for the app menu / status item menu.
+struct MenuItemContribution: Identifiable {
+    let id: String
+    let order: Int
+    let title: () -> String
+    let symbol: String?
+    /// Key equivalent with modifiers as text, e.g. "⌘N", "⇧⌘K" (empty or nil for none).
+    let shortcut: String?
+    let action: () -> Void
+}
+
+/// A view rendered by `--render` / `make shots` to `build/shots/<lang>-<appearance>/<id>.png`.
+/// Ids are `<area>.<name>`, e.g. "onboarding.welcome", "island.done-card", "design.card".
+/// `size == .zero` renders at the view's fitting size.
+struct RenderScene: Identifiable {
+    let id: String
+    let size: CGSize
+    let content: () -> AnyView
+}
+
+/// A component shown in the gallery (the Components pane of Settings in debug builds).
+struct GalleryEntry: Identifiable {
+    let id: String
+    let area: String
+    let title: () -> String
+    let content: () -> AnyView
+}
+
+/// A check run by `--selftest`. Returns nil when fine, else what is wrong.
+/// `onDemand` checks (slow, or needing a real model or the network) run only when named:
+/// `--selftest <prefix>` runs the checks whose id starts with the prefix, on-demand ones included.
+struct SelfTestCheck: Identifiable {
+    let id: String
+    var onDemand = false
+    let run: () -> String?
+
+    init(id: String, onDemand: Bool = false, run: @escaping () -> String?) {
+        self.id = id
+        self.onDemand = onDemand
+        self.run = run
+    }
+}
+
+@MainActor enum Registry {
+    static var pages: [AppPage] = []
+    static var settingsPanes: [SettingsPane] = []
+    static var onboardingSteps: [OnboardingStep] = []
+    static var menuItems: [MenuItemContribution] = []
+    static var renderScenes: [RenderScene] = []
+    static var gallery: [GalleryEntry] = []
+    static var launchHooks: [() -> Void] = []
+    static var terminateHooks: [() -> Void] = []
+    /// Run after the person pressed "Done" in the setup window (not when it restarts the app for a
+    /// permission: the new process starts with the setup done). `true` after the very first setup.
+    /// A step whose choice applies only at the end, or a window that should open then, hooks in here.
+    static var onboardingFinishedHooks: [(_ firstTime: Bool) -> Void] = []
+    static var selfTests: [SelfTestCheck] = []
+    /// Scripted loops for `--demo` (e.g. the island cycling through its states). Each runs once
+    /// after launch hooks in a normal (non-tool) launch and drives itself from there.
+    static var demoDrivers: [() -> Void] = []
+    /// Art for the welcome step of the setup (672 x 200, `Metrics.heroArt`) instead of the kit's
+    /// accent glow with the app icon. One module sets it (the island module shows the real island
+    /// growing out of a drawn notch); nil keeps the kit's art.
+    static var welcomeArt: (() -> AnyView)?
+
+    // MARK: Ordered views of the contributions
+
+    static var orderedPages: [AppPage] {
+        pages.sorted { ($0.section, $0.order, $0.id) < ($1.section, $1.order, $1.id) }
+    }
+
+    static var orderedSettingsPanes: [SettingsPane] {
+        settingsPanes.sorted { ($0.group, $0.order, $0.id) < ($1.group, $1.order, $1.id) }
+    }
+
+    /// Only the steps whose `isIncluded()` is true right now.
+    static var orderedOnboardingSteps: [OnboardingStep] {
+        onboardingSteps.filter { $0.isIncluded() }.sorted { ($0.order, $0.id) < ($1.order, $1.id) }
+    }
+
+    static var orderedMenuItems: [MenuItemContribution] {
+        menuItems.sorted { ($0.order, $0.id) < ($1.order, $1.id) }
+    }
+
+    static var orderedRenderScenes: [RenderScene] { renderScenes.sorted { $0.id < $1.id } }
+
+    static var orderedGallery: [GalleryEntry] {
+        gallery.sorted { ($0.area, $0.id) < ($1.area, $1.id) }
+    }
+
+    /// Duplicate ids and other contract violations, empty when fine.
+    static func problems() -> [String] {
+        var out: [String] = []
+        func dupes(_ kind: String, _ ids: [String]) {
+            var seen = Set<String>()
+            for id in ids where !seen.insert(id).inserted { out.append("duplicate \(kind) id \(id)") }
+        }
+        dupes("page", pages.map(\.id))
+        dupes("settings pane", settingsPanes.map(\.id))
+        dupes("onboarding step", onboardingSteps.map(\.id))
+        dupes("menu item", menuItems.map(\.id))
+        dupes("render scene", renderScenes.map(\.id))
+        dupes("gallery entry", gallery.map(\.id))
+        dupes("self-test", selfTests.map(\.id))
+        // the settings sidebar and the setup sort by order, then id: a shared order lets the id pick the place
+        var paneOrders: [String: String] = [:]
+        for pane in settingsPanes.sorted(by: { $0.id < $1.id }) {
+            let key = "\(pane.group).\(pane.order)"
+            if let other = paneOrders[key] {
+                out.append("settings panes \(other) and \(pane.id) share order \(pane.order)")
+            } else {
+                paneOrders[key] = pane.id
+            }
+        }
+        var stepOrders: [Int: String] = [:]
+        for step in onboardingSteps.sorted(by: { $0.id < $1.id }) {
+            if let other = stepOrders[step.order] {
+                out.append("onboarding steps \(other) and \(step.id) share order \(step.order)")
+            } else {
+                stepOrders[step.order] = step.id
+            }
+        }
+        for scene in renderScenes where !scene.id.contains(".") {
+            out.append("render scene id \(scene.id) needs an area prefix like \"design.\"")
+        }
+        return out
+    }
+
+    /// Runs `body` with empty contributions and restores them afterwards (tests).
+    static func withScratch<T>(_ body: () throws -> T) rethrows -> T {
+        let saved = (pages, settingsPanes, onboardingSteps, menuItems, renderScenes, gallery, launchHooks, terminateHooks, selfTests)
+        let (savedDemo, savedFinished, savedWelcome) = (demoDrivers, onboardingFinishedHooks, welcomeArt)
+        pages = []; settingsPanes = []; onboardingSteps = []; menuItems = []; renderScenes = []
+        gallery = []; launchHooks = []; terminateHooks = []; selfTests = []; demoDrivers = []; onboardingFinishedHooks = []
+        welcomeArt = nil
+        defer {
+            (pages, settingsPanes, onboardingSteps, menuItems, renderScenes, gallery, launchHooks, terminateHooks, selfTests) = saved
+            (demoDrivers, onboardingFinishedHooks, welcomeArt) = (savedDemo, savedFinished, savedWelcome)
+        }
+        return try body()
+    }
+}

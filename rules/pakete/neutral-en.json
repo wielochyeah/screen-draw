@@ -1,0 +1,72 @@
+{
+  "$schema": "../schema/paket.schema.json",
+  "id": "neutral-en",
+  "titel": "Neutrale Sprache (Englisch)",
+  "gruppe": "schreiben",
+  "standardAktiv": true,
+  "abschaltbar": false,
+  "sprachen": ["en"],
+  "beschreibung": "Englische Texte beschreiben, statt zu werben oder zu versprechen.",
+  "begriffe": [
+    {
+      "id": "werbeversprechen-en",
+      "label": "Superlativ oder Versprechen",
+      "hinweis": "beschreiben, was die Funktion tut und woran das messbar ist",
+      "regeln": ["S-06"],
+      "art": "woerter",
+      "muster": [
+        "the\\s+best",
+        "best[- ]in[- ]class",
+        "world[- ]class",
+        "state[- ]of[- ]the[- ]art",
+        "perfect(?:ly|ion)?",
+        "guarantee[sd]?",
+        "ultimate(?:ly)?",
+        "unbeatable",
+        "unparalleled",
+        "unmatched",
+        "flawless(?:ly)?",
+        "incredibl[ey]",
+        "next[- ]level"
+      ],
+      "flags": "i",
+      "bereiche": ["ui", "ki"],
+      "beispiele": {
+        "treffer": [
+          "The best way to write",
+          "Perfect for teams",
+          "Guaranteed private",
+          "The ultimate tool",
+          "Flawless sync",
+          "Next-level notes"
+        ],
+        "erlaubt": ["Works offline", "Sorted by date"]
+      }
+    },
+    {
+      "id": "zusage-en",
+      "label": "Zusage ohne Beleg",
+      "hinweis": "sagen, was die App tut („Notes are stored in one file on this Mac“); eine Zusage nur, wenn das Projekt sie einhält und ein Test sie belegt, dann mit // text-ausnahme: Grund",
+      "regeln": ["S-06"],
+      "art": "woerter",
+      "muster": [
+        "never\\s+leaves?",
+        "(?:are|is)\\s+safe"
+      ],
+      "flags": "i",
+      "bereiche": ["ui", "ki"],
+      "beispiele": {
+        "treffer": [
+          "Your data never leaves this Mac.",
+          "Notes never leave it",
+          "Your entries are safe"
+        ],
+        "erlaubt": [
+          "Notes are stored in one file on this Mac.",
+          "Leave the view with Esc",
+          "Is it safer?"
+        ]
+      }
+    }
+  ]
+}

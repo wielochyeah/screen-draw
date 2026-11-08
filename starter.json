@@ -1,0 +1,20 @@
+{
+  "starter": { "version": "1.0.1" },
+  "app": {
+    "name": "Starter",
+    "bundleId": "com.example.starter",
+    "displayName": { "en": "Starter", "de": "Starter" },
+    "version": "1.0.0",
+    "build": 1,
+    "minimumMacOS": "26.0",
+    "accent": "violett",
+    "symbol": "sparkles",
+    "tagline": { "en": "The starting point for your next Mac app.", "de": "Der Ausgangspunkt für deine nächste Mac-App." },
+    "copyright": "© 2026"
+  },
+  "modules": { "window": true, "menubar": true, "island": true, "background": true, "hotkeys": true, "ai": true, "mlx": false, "examples": true },
+  "permissions": ["notifications"],
+  "texts": { "languages": ["en", "de"], "anrede": "du" },
+  "commit": { "name": "", "email": "" },
+  "signing": { "identity": "-", "teamId": "", "notarize": false }
+}
